@@ -10,26 +10,25 @@ jobs:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
-steps:
-  - uses: actions/checkout@v2
-    name: Check out code
+      - uses: actions/checkout@v2
+        name: Check out code
 
-  - uses: mr-smithers-excellent/docker-build-push@v5
-    name: Build & push Spark master Docker image
-    with:
-      image:  ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}
-      tags: spark-master-3.1.1
-      registry: docker.io
-      directory: master
-      username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      
-  - uses: mr-smithers-excellent/docker-build-push@v5
-    name: Build & push Spark worker Docker image
-    with:
-      image:  ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}
-      tags: spark-worker-3.1.1
-      registry: docker.io
-      directory: worker
-      username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      password: ${{ secrets.DOCKER_HUB_TOKEN }} 
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Spark master Docker image
+        with:
+          image:  ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}
+          tags: spark-master-3.1.1
+          registry: docker.io
+          directory: master
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Spark worker Docker image
+        with:
+          image:  ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}
+          tags: spark-worker-3.1.1
+          registry: docker.io
+          directory: worker
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }} 
