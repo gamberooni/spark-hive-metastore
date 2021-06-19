@@ -52,16 +52,18 @@ jobs:
         run: docker run willwill/wait-for-it localhost:10000 -- echo "Hive server is up"
         
       - name: Wait for Spark master to be up 
-        run: docker run willwill/wait-for-it localhost:10000 -- echo "Spark master is up"        
+        run: docker run willwill/wait-for-it localhost:8080 -- echo "Spark master is up"        
         
       - name: Wait for Spark worker to be up 
-        run: docker run willwill/wait-for-it localhost:10000 -- echo "Spark worker is up"    
+        run: docker run willwill/wait-for-it localhost:8081 -- echo "Spark worker is up"    
         
       - name: Copy the test Python script into Spark master container
-        run: docker cp test_spark.py spark-master:/tmp/test_spark.py
+        run: docker cp test/test_spark.py spark-master:/tmp/test_spark.py
         
       - name: Spark submit the test script
         run: docker exec spark-master /spark/bin/spark-submit /tmp/test_spark.py
         
+      - name: Check if db and table exists in Postgres
+        run: docker exec hive-metastore-postgres psql -U hive -d metastore -c 'SELECT "TBL_NAME", "NAME" FROM "TBLS" JOIN "DBS" ON "TBLS"."DB_ID" = "DBS"."DB_ID";'        
         
         
