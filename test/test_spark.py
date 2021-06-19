@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
+    .config("spark.sql.catalogImplementation", "hive") \
     .appName("test") \
     .getOrCreate()
 
