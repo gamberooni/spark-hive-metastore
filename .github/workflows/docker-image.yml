@@ -65,7 +65,8 @@ jobs:
         
       - name: Check if db and table exists in Postgres
         run: |
-          res=$(docker exec hive-metastore-postgres psql -U hive -d metastore -c 'SELECT (CASE WHEN EXISTS (SELECT "TBL_NAME" as t, "NAME" as d FROM "TBLS" as tbls JOIN "DBS" as dbs ON tbls."DB_ID" = dbs."DB_ID") THEN 1 ELSE 0 END);' | grep 1) 
-          [[ -z "$res" ]] && { echo "Hive metastore is empty" ; exit 1; }
+          res=$(docker exec hive-metastore-postgres psql -U hive -d metastore -c 'SELECT (CASE WHEN EXISTS (SELECT "TBL_NAME" as t, "NAME" as d FROM "TBLS" as tbls JOIN "DBS" as dbs ON tbls."DB_ID" = dbs."DB_ID") THEN 1 ELSE 0 END);' | grep 1)
+          if [ -z "$res" ]; then exit 1; fi
+
         
         
