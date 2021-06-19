@@ -19,7 +19,7 @@ jobs:
           image:  ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}
           tags: spark-master-3.1.1
           registry: docker.io
-          directory: master
+          dockerfile: ./master/Dockerfile
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
@@ -29,6 +29,6 @@ jobs:
           image:  ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPOSITORY }}
           tags: spark-worker-3.1.1
           registry: docker.io
-          directory: worker
+          dockerfile: ./worker/Dockerfile
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }} 
