@@ -1,5 +1,7 @@
 # Spark with Hive Metastore
 
+[![Docker Image CI](https://github.com/gamberooni/spark-hive-metastore/actions/workflows/docker-image.yml/badge.svg)](https://github.com/gamberooni/spark-hive-metastore/actions/workflows/docker-image.yml)
+
 ## Intro
 This repo builds an Apache Spark container image configured to use Hive as metastore. The `docker-compose.yml` serves as an example that demonstrates the required components to run a fully functional Spark with Hive metastore-enabled system. The Hive metastore data is persisted using a Postgres instance. 
 
