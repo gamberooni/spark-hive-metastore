@@ -32,3 +32,36 @@ jobs:
           dockerfile: ./worker/Dockerfile
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }} 
+
+
+  test_sparke:
+    needs: push_to_registry
+    name: Test Spark and Hive metastore
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Create Docker network for docker-compose
+        run: docker network create -d bridge spark
+
+      - name: Start all containers via docker-compose
+        run: docker-compose up -d
+        
+      - name: Wait for hive-server to be up 
+        run: docker run willwill/wait-for-it localhost:10000 -- echo "Hive server is up"
+        
+      - name: Wait for Spark master to be up 
+        run: docker run willwill/wait-for-it localhost:10000 -- echo "Spark master is up"        
+        
+      - name: Wait for Spark worker to be up 
+        run: docker run willwill/wait-for-it localhost:10000 -- echo "Spark worker is up"    
+        
+      - name: Copy the test Python script into Spark master container
+        run: docker cp test_spark.py spark-master:/tmp/test_spark.py
+        
+      - name: Spark submit the test script
+        run: docker exec spark-master /spark/bin/spark-submit /tmp/test_spark.py
+        
+        
+        
